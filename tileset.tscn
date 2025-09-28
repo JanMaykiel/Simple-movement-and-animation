@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw5ff6n8w7fkn"]
+
+[ext_resource type="PackedScene" uid="uid://qqtlmluhyoby" path="res://assets/GridMap/tileset.glb" id="1_2ap32"]
+
+[node name="tileset" instance=ExtResource("1_2ap32")]

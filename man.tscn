@@ -1,0 +1,108 @@
+[gd_scene load_steps=14 format=3 uid="uid://bdpl8fli78bpl"]
+
+[ext_resource type="PackedScene" uid="uid://d2gb1ghqqi51h" path="res://assets/Man/Man.glb" id="1_ugvvu"]
+[ext_resource type="Script" uid="uid://cir1p5t6vqime" path="res://scripts/player.gd" id="2_pfr4v"]
+[ext_resource type="PackedScene" uid="uid://dx6t2o007wevr" path="res://sword.tscn" id="3_rb5kw"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gca12"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2x0nd"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_ml447"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_gca12")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_2x0nd")
+blend_point_1/pos = 1.0
+min_space = 0.0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6hl5u"]
+animation = &"attack1"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rb5kw"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dqn0h"]
+advance_mode = 2
+advance_condition = &"attack"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gca12"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_m6ldf"]
+states/BlendSpace1D/node = SubResource("AnimationNodeBlendSpace1D_ml447")
+states/BlendSpace1D/position = Vector2(410, 100)
+states/End/position = Vector2(635, 100)
+states/Start/position = Vector2(199, 100)
+states/attack1/node = SubResource("AnimationNodeAnimation_6hl5u")
+states/attack1/position = Vector2(410, 189)
+transitions = ["Start", "BlendSpace1D", SubResource("AnimationNodeStateMachineTransition_rb5kw"), "BlendSpace1D", "attack1", SubResource("AnimationNodeStateMachineTransition_dqn0h"), "attack1", "BlendSpace1D", SubResource("AnimationNodeStateMachineTransition_gca12")]
+graph_offset = Vector2(-50.78908, 0)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_2x0nd"]
+graph_offset = Vector2(-301.27274, 6.6363525)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_m6ldf")
+nodes/StateMachine/position = Vector2(-180, 100)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ml447"]
+
+[node name="Man" instance=ExtResource("1_ugvvu")]
+script = ExtResource("2_pfr4v")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(0, 1.0137709, 1.5731921e-10)
+bones/0/rotation = Quaternion(-0.021824481, 0, 0, 0.9997618)
+bones/2/rotation = Quaternion(-0.12366016, 0.0040260395, 0.97182447, -0.20062236)
+bones/3/rotation = Quaternion(0.08954688, -0.00439433, -0.015656726, 0.99584985)
+bones/5/rotation = Quaternion(0.0022888703, 0.043428708, 0.99487686, -0.09126183)
+bones/5/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
+bones/6/rotation = Quaternion(-0.18030725, 0.00088641257, -0.11136136, 0.9772857)
+bones/6/scale = Vector3(0.99999976, 1.0000004, 1)
+bones/7/rotation = Quaternion(0.6513436, 0.10026387, 0.07841162, 0.7480311)
+bones/7/scale = Vector3(1.0000067, 1.0000116, 1.0000033)
+bones/8/rotation = Quaternion(0.092505164, 0.0032847847, 0.9761539, 0.19635583)
+bones/9/rotation = Quaternion(0.08954689, 0.0043943394, 0.015656741, 0.99584985)
+bones/11/rotation = Quaternion(-0.0022888405, 0.043428708, 0.9948769, 0.09126183)
+bones/11/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
+bones/12/rotation = Quaternion(-0.18030725, -0.0008864121, 0.11136136, 0.9772857)
+bones/13/rotation = Quaternion(0.6513436, -0.10026385, -0.07841163, 0.748031)
+bones/13/scale = Vector3(1.0000067, 1.0000116, 1.0000032)
+
+[node name="head" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(1, 0, 2.3841864e-07, 5.2117503e-08, 0.97581536, -0.2185966, -2.3265257e-07, 0.2185966, 0.97581536, 0, 1.596164, -0.025439033)
+bone_name = "head"
+bone_idx = 1
+
+[node name="Camera_container" type="Node3D" parent="Armature/Skeleton3D/head" index="0"]
+transform = Transform3D(-1, -3.5527137e-14, -8.7422904e-08, 0, 0.9999995, 1.4901161e-08, 8.742276e-08, 1.4901161e-08, -0.9999995, -3.6332217e-08, 0.19551933, 0.1523882)
+
+[node name="Player_camera" type="Camera3D" parent="Armature/Skeleton3D/head/Camera_container" index="0"]
+
+[node name="Bullet_RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/head/Camera_container" index="1"]
+transform = Transform3D(1, 0, 0, 0, -0.1736482, -0.9848077, 0, 0.9848077, -0.1736482, 0, 0, 0)
+enabled = false
+target_position = Vector3(0, 0, 0)
+
+[node name="right_hand" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.9096322, -0.027956996, 0.41447532, 0.19444257, -0.9103445, 0.36532897, 0.36710173, 0.41290596, 0.8335138, -0.3956614, 0.97528565, 0.06300042)
+bone_name = "hand.r"
+bone_idx = 10
+
+[node name="Weapon_container" type="Node3D" parent="Armature/Skeleton3D/right_hand" index="0"]
+transform = Transform3D(-0.05990769, 0.21104175, 0.9756386, 0.99456155, -0.07080054, 0.07638439, 0.08519581, 0.9749089, -0.20565288, -0.042728484, 0.072594166, -0.16221347)
+
+[node name="sword" parent="Armature/Skeleton3D/right_hand/Weapon_container" index="0" instance=ExtResource("3_rb5kw")]
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_2x0nd")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/StateMachine/conditions/attack = false
+parameters/StateMachine/BlendSpace1D/blend_position = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ml447")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dx6t2o007wevr"]
+
+[ext_resource type="PackedScene" uid="uid://c6rks5vji7meh" path="res://assets/Weapons/sword.glb" id="1_74bdg"]
+[ext_resource type="ArrayMesh" uid="uid://bjmgdi83xap3p" path="res://assets/Weapons/sword.tres" id="2_e4ynd"]
+
+[node name="sword" instance=ExtResource("1_74bdg")]
+
+[node name="sword" parent="." index="0"]
+sorting_offset = 100.0
+mesh = ExtResource("2_e4ynd")
+
+[node name="StaticBody3D" parent="sword" index="0"]
+collision_layer = 2

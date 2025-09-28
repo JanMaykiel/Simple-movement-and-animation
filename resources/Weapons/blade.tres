@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://bds3riucbmtpq"]
+
+[ext_resource type="ArrayMesh" uid="uid://bjmgdi83xap3p" path="res://assets/Weapons/sword.tres" id="1_fu3xn"]
+[ext_resource type="Script" uid="uid://g8cqg75er4i1" path="res://scripts/weapon.gd" id="2_5blar"]
+
+[resource]
+script = ExtResource("2_5blar")
+ammo = "melee"
+mesh = ExtResource("1_fu3xn")
+cooldown = 0.15
+sway = 0.1
+damage = 50
+metadata/_custom_type_script = "uid://g8cqg75er4i1"

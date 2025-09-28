@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdpl8fli78bpl"]
+
+[ext_resource type="PackedScene" uid="uid://bb4eg4ylinfni" path="res://assets/Man/Man.glb" id="1_ugvvu"]
+[ext_resource type="Script" uid="uid://cir1p5t6vqime" path="res://scripts/player.gd" id="2_pfr4v"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ugvvu"]
+radius = 0.35
+
+[node name="Man" instance=ExtResource("1_ugvvu")]
+script = ExtResource("2_pfr4v")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+layers = 2
+
+[node name="Camera_container" type="Node3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 1.6926885, 0)
+
+[node name="Player_camera" type="Camera3D" parent="Armature/Skeleton3D/Camera_container" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08680272, -0.017821074)
+cull_mask = 1048573
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ugvvu")
+
+[node name="CameraPivot" type="Node3D" parent="." index="3"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6933582, 0)
+spring_length = 3.0
+
+[node name="ThirdPerson" type="Camera3D" parent="CameraPivot/SpringArm3D" index="0"]
