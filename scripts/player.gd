@@ -5,6 +5,7 @@ const JUMP_VELOCITY = 4.5
 const GRAVITY = 9.8
 const SENSITIVITY = 1.0 / 500
 const LERP = 0.15
+const RAY_LENGTH = 1000
 
 #Player
 @onready var parent = $"."
@@ -14,9 +15,7 @@ const LERP = 0.15
 @onready var anim_tree = $AnimationTree
 @onready var weapon = $Armature/Skeleton3D/right_hand/Weapon_container
 @onready var weapon_hitbox = $Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox/CollisionShape3D
-
-#Raycast
-@onready var bullet_raycast = $Armature/Skeleton3D/head/Camera_container/Bullet_RayCast3D
+@onready var raycast = $Armature/Skeleton3D/head/Camera_container/RayCast3D
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -25,7 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		armature.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(60))
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("exit"):
@@ -66,12 +65,13 @@ func update_animation_parameters(delta):
 	anim_tree.set("parameters/StateMachine/BlendSpace1D/blend_position", current_blend_positon)
 	
 	if(Input.is_action_just_pressed("attack")):
-		weapon_hitbox.disabled = false
+		raycast_check_intersect()
 		anim_tree["parameters/StateMachine/conditions/attack"] = true
 	else:
-		weapon_hitbox.disabled = true
 		anim_tree["parameters/StateMachine/conditions/attack"] = false
 
-func _on_weapon_hitbox_body_entered(body: Node3D) -> void:
-	if body.has_method("hurt"):
-		body.hurt()
+func raycast_check_intersect():
+	var object_hit = raycast.get_collider()
+	if object_hit != null and object_hit.name == "Enemy":
+		if object_hit.has_method("hurt"):
+			object_hit.hurt()

@@ -5,7 +5,7 @@ var red = "#b91115"
 
 @onready var hit_timer = $Armature/Skeleton3D/Timer
 @onready var enemy_mesh = %Cube
-@onready var hurtbox = $Hurtbox
+@onready var hurtbox = $Hurtbox_enemy
 
 func hurt():
 	var material = enemy_mesh.get_active_material(0)
