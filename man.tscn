@@ -1,8 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdpl8fli78bpl"]
+[gd_scene load_steps=15 format=3 uid="uid://bdpl8fli78bpl"]
 
 [ext_resource type="PackedScene" uid="uid://d2gb1ghqqi51h" path="res://assets/Man/Man.glb" id="1_ugvvu"]
 [ext_resource type="Script" uid="uid://cir1p5t6vqime" path="res://scripts/player.gd" id="2_pfr4v"]
 [ext_resource type="PackedScene" uid="uid://dx6t2o007wevr" path="res://sword.tscn" id="3_rb5kw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rb5kw"]
+radius = 0.2
+height = 1.4
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gca12"]
 animation = &"idle"
@@ -53,26 +57,26 @@ node_connections = [&"output", 0, &"StateMachine"]
 script = ExtResource("2_pfr4v")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(0, 1.0137709, 1.5731921e-10)
 bones/0/rotation = Quaternion(-0.021824481, 0, 0, 0.9997618)
-bones/2/rotation = Quaternion(-0.12366016, 0.0040260395, 0.97182447, -0.20062236)
-bones/3/rotation = Quaternion(0.08954688, -0.00439433, -0.015656726, 0.99584985)
-bones/5/rotation = Quaternion(0.0022888703, 0.043428708, 0.99487686, -0.09126183)
+bones/2/rotation = Quaternion(-0.10783839, -0.0100957155, 0.9674537, -0.22869697)
+bones/3/rotation = Quaternion(0.08954688, -0.0043943436, -0.015656719, 0.99584985)
+bones/5/rotation = Quaternion(0.0060319444, -0.024316033, 0.9985345, -0.04797266)
 bones/5/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
-bones/6/rotation = Quaternion(-0.18030725, 0.00088641257, -0.11136136, 0.9772857)
+bones/6/rotation = Quaternion(-0.04001728, 0.00090636365, -0.024715235, 0.99889284)
 bones/6/scale = Vector3(0.99999976, 1.0000004, 1)
-bones/7/rotation = Quaternion(0.6513436, 0.10026387, 0.07841162, 0.7480311)
+bones/7/rotation = Quaternion(0.5993801, 0.07649307, 0.0387578, 0.79585814)
 bones/7/scale = Vector3(1.0000067, 1.0000116, 1.0000033)
-bones/8/rotation = Quaternion(0.092505164, 0.0032847847, 0.9761539, 0.19635583)
-bones/9/rotation = Quaternion(0.08954689, 0.0043943394, 0.015656741, 0.99584985)
-bones/11/rotation = Quaternion(-0.0022888405, 0.043428708, 0.9948769, 0.09126183)
+bones/8/rotation = Quaternion(0.10783839, -0.0100957155, 0.9674537, 0.22869697)
+bones/9/rotation = Quaternion(0.08954688, 0.0043943436, 0.015656719, 0.99584985)
+bones/10/rotation = Quaternion(0.12137333, -0.07277629, 0.11195845, 0.983584)
+bones/11/rotation = Quaternion(-0.0060319146, -0.024316033, 0.9985345, 0.047972657)
 bones/11/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
-bones/12/rotation = Quaternion(-0.18030725, -0.0008864121, 0.11136136, 0.9772857)
-bones/13/rotation = Quaternion(0.6513436, -0.10026385, -0.07841163, 0.748031)
+bones/12/rotation = Quaternion(-0.040017277, -0.0009063633, 0.024715235, 0.99889284)
+bones/13/rotation = Quaternion(0.5993801, -0.07649303, -0.03875782, 0.79585814)
 bones/13/scale = Vector3(1.0000067, 1.0000116, 1.0000032)
 
 [node name="head" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(1, 0, 2.3841864e-07, 5.2117503e-08, 0.97581536, -0.2185966, -2.3265257e-07, 0.2185966, 0.97581536, 0, 1.596164, -0.025439033)
+transform = Transform3D(1, 0, 2.3841864e-07, 5.2117503e-08, 0.97581536, -0.2185966, -2.3265257e-07, 0.2185966, 0.97581536, 0, 1.6163, -0.025439033)
 bone_name = "head"
 bone_idx = 1
 
@@ -81,13 +85,8 @@ transform = Transform3D(-1, -3.5527137e-14, -8.7422904e-08, 0, 0.9999995, 1.4901
 
 [node name="Player_camera" type="Camera3D" parent="Armature/Skeleton3D/head/Camera_container" index="0"]
 
-[node name="Bullet_RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/head/Camera_container" index="1"]
-transform = Transform3D(1, 0, 0, 0, -0.1736482, -0.9848077, 0, 0.9848077, -0.1736482, 0, 0, 0)
-enabled = false
-target_position = Vector3(0, 0, 0)
-
 [node name="right_hand" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
-transform = Transform3D(-0.9096322, -0.027956996, 0.41447532, 0.19444257, -0.9103445, 0.36532897, 0.36710173, 0.41290596, 0.8335138, -0.3956614, 0.97528565, 0.06300042)
+transform = Transform3D(-0.88533664, -0.08289002, 0.45750418, 0.24756312, -0.916942, 0.31293774, 0.39356545, 0.39031577, 0.8323221, -0.43215194, 1.0089657, 0.053876527)
 bone_name = "hand.r"
 bone_idx = 10
 
@@ -96,6 +95,14 @@ transform = Transform3D(-0.05990769, 0.21104175, 0.9756386, 0.99456155, -0.07080
 
 [node name="sword" parent="Armature/Skeleton3D/right_hand/Weapon_container" index="0" instance=ExtResource("3_rb5kw")]
 
+[node name="weapon_hitbox" type="Area3D" parent="Armature/Skeleton3D/right_hand/Weapon_container/sword" index="1"]
+transform = Transform3D(1, 2.9802322e-08, -7.450581e-09, 2.9802322e-08, 1, 1.4901161e-08, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56, 0)
+shape = SubResource("CapsuleShape3D_rb5kw")
+disabled = true
+
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_2x0nd")
 advance_expression_base_node = NodePath("..")
@@ -103,6 +110,12 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/conditions/attack = false
 parameters/StateMachine/BlendSpace1D/blend_position = 0.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
+[node name="Hitbox" type="CollisionShape3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_ml447")
+
+[node name="Hurtbox" type="CollisionShape3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ml447")
+
+[connection signal="body_entered" from="Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox" to="." method="_on_weapon_hitbox_body_entered"]

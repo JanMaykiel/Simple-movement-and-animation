@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqwufihfycee3"]
+[gd_scene load_steps=4 format=3 uid="uid://dqwufihfycee3"]
 
 [ext_resource type="MeshLibrary" uid="uid://bjfk18g5xbswu" path="res://assets/GridMap/tileset.tres" id="2_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://bdpl8fli78bpl" path="res://man.tscn" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://ijg33huylmcr" path="res://enemy.tscn" id="3_tlwt5"]
 
 [node name="World" type="Node3D"]
 
@@ -31,4 +32,37 @@ light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
 light_energy = 3.0
 shadow_enabled = true
 
+[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.045197, 2.0704913, 3.329683)
+light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.84807, 1.5564152, 17.487183)
+light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.969948, 1.7319344, 2.7081294)
+light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.848633, 1.5045753, 17.4656)
+light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.256737, 1.7151262, 3.2352843)
+light_color = Color(0.9483494, 0.8187205, 0.45622045, 1)
+light_energy = 3.0
+shadow_enabled = true
+
 [node name="Man" parent="." instance=ExtResource("2_tlwt5")]
+
+[node name="Enemy" parent="." instance=ExtResource("3_tlwt5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.924423, 0, 7.2437334)

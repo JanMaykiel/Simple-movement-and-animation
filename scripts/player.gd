@@ -13,6 +13,7 @@ const LERP = 0.15
 @onready var camera = $Armature/Skeleton3D/head/Camera_container/Player_camera
 @onready var anim_tree = $AnimationTree
 @onready var weapon = $Armature/Skeleton3D/right_hand/Weapon_container
+@onready var weapon_hitbox = $Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox/CollisionShape3D
 
 #Raycast
 @onready var bullet_raycast = $Armature/Skeleton3D/head/Camera_container/Bullet_RayCast3D
@@ -50,7 +51,13 @@ func _physics_process(delta: float) -> void:
 	update_animation_parameters(delta)
 
 	move_and_slide()
-	
+
+func attack():
+	var enemies = weapon_hitbox.get_overlapping_bodies()
+	for enemy in enemies:
+		if enemy.has_method("hurt"):
+			enemy.hurt()
+
 func update_animation_parameters(delta):
 	#Blend the animation smoothly to avoid camera snapping constantly when moving
 	var target_blend_position = velocity.length() / SPEED
@@ -59,6 +66,12 @@ func update_animation_parameters(delta):
 	anim_tree.set("parameters/StateMachine/BlendSpace1D/blend_position", current_blend_positon)
 	
 	if(Input.is_action_just_pressed("attack")):
+		weapon_hitbox.disabled = false
 		anim_tree["parameters/StateMachine/conditions/attack"] = true
 	else:
+		weapon_hitbox.disabled = true
 		anim_tree["parameters/StateMachine/conditions/attack"] = false
+
+func _on_weapon_hitbox_body_entered(body: Node3D) -> void:
+	if body.has_method("hurt"):
+		body.hurt()
