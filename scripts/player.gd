@@ -65,13 +65,14 @@ func update_animation_parameters(delta):
 	anim_tree.set("parameters/StateMachine/BlendSpace1D/blend_position", current_blend_positon)
 	
 	if(Input.is_action_just_pressed("attack")):
-		raycast_check_intersect()
+		weapon_hitbox.disabled = false
 		anim_tree["parameters/StateMachine/conditions/attack"] = true
 	else:
+		weapon_hitbox.disabled = true
 		anim_tree["parameters/StateMachine/conditions/attack"] = false
 
-func raycast_check_intersect():
-	var object_hit = raycast.get_collider()
-	if object_hit != null and object_hit.name == "Enemy":
-		if object_hit.has_method("hurt"):
-			object_hit.hurt()
+#func raycast_check_intersect():
+	#var object_hit = raycast.get_collider()
+	#if object_hit != null and object_hit.name == "Enemy":
+		#if object_hit.has_method("hurt"):
+			#object_hit.hurt()

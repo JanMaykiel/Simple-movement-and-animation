@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://ijg33huylmcr"]
+[gd_scene load_steps=7 format=4 uid="uid://ijg33huylmcr"]
 
 [ext_resource type="PackedScene" uid="uid://d2gb1ghqqi51h" path="res://assets/Man/Man.glb" id="1_7k104"]
 [ext_resource type="Script" uid="uid://6w35m5qytyso" path="res://scripts/enemy.gd" id="2_4gyqm"]
@@ -28,6 +28,8 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qi2p4"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4gyqm"]
 
 [node name="Enemy" instance=ExtResource("1_7k104")]
@@ -41,7 +43,7 @@ bones/5/rotation = Quaternion(0.0060319444, -0.024316033, 0.9985345, -0.04797266
 bones/5/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
 bones/6/rotation = Quaternion(-0.04001728, 0.00090636365, -0.024715235, 0.99889284)
 bones/6/scale = Vector3(0.99999976, 1.0000004, 1)
-bones/7/rotation = Quaternion(0.5993801, 0.07649307, 0.0387578, 0.79585814)
+bones/7/rotation = Quaternion(0.59938014, 0.07649308, 0.038757794, 0.79585814)
 bones/7/scale = Vector3(1.0000067, 1.0000116, 1.0000033)
 bones/8/rotation = Quaternion(0.10783839, -0.0100957155, 0.9674537, 0.22869697)
 bones/9/rotation = Quaternion(0.08954688, 0.0043943436, 0.015656719, 0.99584985)
@@ -49,17 +51,24 @@ bones/10/rotation = Quaternion(0.12137333, -0.07277629, 0.11195845, 0.983584)
 bones/11/rotation = Quaternion(-0.0060319146, -0.024316033, 0.9985345, 0.047972657)
 bones/11/scale = Vector3(1.0000538, 0.9999992, 1.0000136)
 bones/12/rotation = Quaternion(-0.040017277, -0.0009063633, 0.024715235, 0.99889284)
-bones/13/rotation = Quaternion(0.5993801, -0.07649303, -0.03875782, 0.79585814)
+bones/13/rotation = Quaternion(0.59938014, -0.07649303, -0.038757823, 0.79585814)
 bones/13/scale = Vector3(1.0000067, 1.0000116, 1.0000032)
 
 [node name="Cube" parent="Armature/Skeleton3D" index="0"]
 unique_name_in_owner = true
 mesh = SubResource("ArrayMesh_qi2p4")
 
-[node name="Timer" type="Timer" parent="Armature/Skeleton3D" index="1"]
-wait_time = 0.033
-one_shot = true
+[node name="Area3D" type="Area3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("CapsuleShape3D_qi2p4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_4gyqm")
+
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]
+[connection signal="area_shape_entered" from="Area3D" to="." method="_on_area_3d_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area3D" to="." method="_on_area_3d_area_shape_exited"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
