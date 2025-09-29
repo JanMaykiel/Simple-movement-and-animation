@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bdpl8fli78bpl"]
+[gd_scene load_steps=18 format=3 uid="uid://bdpl8fli78bpl"]
 
 [ext_resource type="PackedScene" uid="uid://d2gb1ghqqi51h" path="res://assets/Man/Man.glb" id="1_ugvvu"]
 [ext_resource type="Script" uid="uid://cir1p5t6vqime" path="res://scripts/player.gd" id="2_pfr4v"]
@@ -24,21 +24,8 @@ blend_point_1/node = SubResource("AnimationNodeAnimation_2x0nd")
 blend_point_1/pos = 1.0
 min_space = 0.0
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ml447"]
-animation = &"run"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m6ldf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rb5kw"]
 animation = &"slide"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_xmkcg"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_ml447")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_m6ldf")
-blend_point_1/pos = 1.0
-min_space = 0.0
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqn0h"]
-animation = &"slide_attack"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rb5kw"]
 advance_mode = 2
@@ -53,22 +40,14 @@ xfade_time = 0.01
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e85lc"]
-switch_mode = 2
-advance_mode = 2
-advance_condition = &"not_sliding"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pdy8h"]
-advance_mode = 2
-advance_condition = &"sliding"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2x0nd"]
 advance_mode = 2
-advance_condition = &"slide_attack"
+advance_condition = &"sliding"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ml447"]
 switch_mode = 2
 advance_mode = 2
+advance_condition = &"not_sliding"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_m6ldf"]
 states/End/position = Vector2(635, 100)
@@ -77,11 +56,9 @@ states/attack1/node = SubResource("AnimationNodeAnimation_6hl5u")
 states/attack1/position = Vector2(357, 189)
 states/run/node = SubResource("AnimationNodeBlendSpace1D_ml447")
 states/run/position = Vector2(357, 100)
-states/slide/node = SubResource("AnimationNodeBlendSpace1D_xmkcg")
-states/slide/position = Vector2(518.21094, 100)
-states/slide_attack/node = SubResource("AnimationNodeAnimation_dqn0h")
-states/slide_attack/position = Vector2(518.21094, 189)
-transitions = ["Start", "run", SubResource("AnimationNodeStateMachineTransition_rb5kw"), "run", "attack1", SubResource("AnimationNodeStateMachineTransition_dqn0h"), "attack1", "run", SubResource("AnimationNodeStateMachineTransition_gca12"), "slide", "run", SubResource("AnimationNodeStateMachineTransition_e85lc"), "run", "slide", SubResource("AnimationNodeStateMachineTransition_pdy8h"), "slide", "slide_attack", SubResource("AnimationNodeStateMachineTransition_2x0nd"), "slide_attack", "slide", SubResource("AnimationNodeStateMachineTransition_ml447")]
+states/slide/node = SubResource("AnimationNodeAnimation_rb5kw")
+states/slide/position = Vector2(513.21094, 100)
+transitions = ["Start", "run", SubResource("AnimationNodeStateMachineTransition_rb5kw"), "run", "attack1", SubResource("AnimationNodeStateMachineTransition_dqn0h"), "attack1", "run", SubResource("AnimationNodeStateMachineTransition_gca12"), "run", "slide", SubResource("AnimationNodeStateMachineTransition_2x0nd"), "slide", "run", SubResource("AnimationNodeStateMachineTransition_ml447")]
 graph_offset = Vector2(43.210922, 24)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_2x0nd"]
@@ -135,10 +112,8 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/conditions/attack = false
 parameters/StateMachine/conditions/not_sliding = false
-parameters/StateMachine/conditions/slide_attack = false
 parameters/StateMachine/conditions/sliding = false
 parameters/StateMachine/run/blend_position = 0.0
-parameters/StateMachine/slide/blend_position = 0.0
 
 [node name="Hitbox" type="CollisionShape3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
