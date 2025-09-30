@@ -13,7 +13,6 @@ var drag = DECELERATION
 
 #Player
 @onready var parent = $"."
-@onready var armature = $Armature
 @onready var head = $Armature/Skeleton3D/head/Camera_container
 @onready var camera = $Armature/Skeleton3D/head/Camera_container/Player_camera
 @onready var anim_tree = $AnimationTree
@@ -25,7 +24,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		armature.rotate_y(-event.relative.x * SENSITIVITY)
+		parent.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
@@ -41,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	var input_dir = Input.get_vector("move_right","move_left","move_backward","move_forward")
-	var direction = (armature.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = (parent.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction:
 		current_speed = move_toward(current_speed, MAX_SPEED / 2, ACCELERATION * delta)
