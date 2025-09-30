@@ -19,7 +19,6 @@ var drag = DECELERATION
 @onready var anim_tree = $AnimationTree
 @onready var weapon = $Armature/Skeleton3D/right_hand/Weapon_container
 @onready var weapon_hitbox = $Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox/CollisionShape3D
-@onready var raycast = $Armature/Skeleton3D/head/Camera_container/RayCast3D
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -94,9 +93,3 @@ func slide(delta: float, direction: Vector3):
 	if (direction.x == 0 and direction.z == 0) or Input.is_action_just_released("slide") or not is_on_floor():
 		anim_tree["parameters/StateMachine/conditions/not_sliding"] = true
 		anim_tree["parameters/StateMachine/conditions/sliding"] = false
-
-#func raycast_check_intersect():
-	#var object_hit = raycast.get_collider()
-	#if object_hit != null and object_hit.name == "Enemy":
-		#if object_hit.has_method("hurt"):
-			#object_hit.hurt()
