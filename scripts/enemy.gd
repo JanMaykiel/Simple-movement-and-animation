@@ -11,13 +11,13 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
-	if area.name == "weapon_hitbox":
+	if area.name == "slap_hitbox":
 		var material = enemy_mesh.get_active_material(0)
 		material.albedo_color = red
-		health -= area.damage
+		health -= 1
 		print("health: " + str(health))
 
 func _on_area_3d_area_exited(area: Area3D) -> void:
-	if area.name == "weapon_hitbox":
+	if area.name == "slap_hitbox":
 		var material = enemy_mesh.get_active_material(0)
 		material.albedo_color = original_color

@@ -16,20 +16,22 @@ const VELOCITY_TO_ANIM_SCALE: float = 0.2
 
 #Player State
 var current_speed: float = 0.0
+var is_run: bool = true
 var is_sliding: bool = false
 var is_attacking: bool = false
+var is_run_gun: bool = false
 
 #Node References
 @onready var parent = $"."
 @onready var head = $Armature/Skeleton3D/head/Camera_container
 @onready var camera = $Armature/Skeleton3D/head/Camera_container/Player_camera
 @onready var anim_tree = $AnimationTree
-@onready var weapon = $Armature/Skeleton3D/right_hand/Weapon_container
-@onready var weapon_hitbox = $Armature/Skeleton3D/right_hand/Weapon_container/sword/weapon_hitbox/CollisionShape3D
+@onready var hand = $Armature/Skeleton3D/right_hand/hand_container
+@onready var slap_hitbox = $Armature/Skeleton3D/right_hand/hand_container/slap_hitbox/CollisionShape3D
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	weapon_hitbox.disabled = true
+	slap_hitbox.disabled = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -47,6 +49,7 @@ func _physics_process(delta: float) -> void:
 	handle_movement(input_direction, delta)
 	handle_sliding(input_direction, delta)
 	handle_attack()
+	change_attack()
 
 	update_animations(delta)
 
@@ -95,12 +98,17 @@ func handle_sliding(direction: Vector3, delta: float) -> void:
 
 func start_sliding() -> void:
 	is_sliding = true
-	set_animation_condition("sliding", true)
-	set_animation_condition("not_sliding", false)
+	if is_run:
+		set_animation_condition("sliding", true)
+		set_animation_condition("not_sliding", false)
+	if is_run_gun: 
+		set_animation_condition("slide_gun", true)
+		set_animation_condition("not_sliding", false)
 
 func stop_sliding() -> void:
 	is_sliding = false
 	set_animation_condition("sliding", false)
+	set_animation_condition("slide_gun", false)
 	set_animation_condition("not_sliding", true)
 
 func apply_slide_movement(direction: Vector3, delta: float) -> void:
@@ -111,34 +119,60 @@ func apply_slide_movement(direction: Vector3, delta: float) -> void:
 	
 	update_animation_blend("parameters/StateMachine/slide/blend_position", delta)
 
+func change_attack() -> void:
+	if Input.is_action_just_pressed("change_attack") and is_run_gun:
+		is_run_gun = false
+		is_run = true
+		set_animation_condition("is_run_gun", false)
+		set_animation_condition("is_run", true)
+	elif not is_run_gun and Input.is_action_just_pressed("change_attack"):
+		is_run_gun = true
+		is_run = false
+		set_animation_condition("is_run_gun", true)
+		set_animation_condition("is_run", false)
+
 func handle_attack() -> void:
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and not is_attack_animation_playing():
 		start_attack()
 	elif is_attacking and is_attack_animation_playing():
 		end_attack()
 
 func start_attack() -> void:
 	is_attacking = true
-	weapon_hitbox.disabled = false
-	set_animation_condition("attack", true)
-	if is_sliding:
-		set_animation_condition("slide_attack", true)
-	else:
-		set_animation_condition("attack", true)
+	if is_run:
+		slap_hitbox.disabled = false
+		if is_sliding:
+			set_animation_condition("slide_attack", true)
+		else:
+			set_animation_condition("attack", true)
+	elif is_run_gun:
+		if is_sliding:
+			set_animation_condition("slide_shoot", true)
+		else:
+			set_animation_condition("shoot", true)
 
 func end_attack() -> void:
-	weapon_hitbox.disabled = true
+	slap_hitbox.disabled = true
 	set_animation_condition("attack", false)
 	set_animation_condition("slide_attack", false)
+	set_animation_condition("shoot", false)
+	set_animation_condition("slide_shoot", false)
 
 func is_attack_animation_playing() -> bool:
-	return (anim_tree.get("parameters/StateMachine/conditions/attack") or anim_tree.get("parameters/StateMachine/conditions/slide_attack"))
+	return (anim_tree.get("parameters/StateMachine/conditions/attack") or anim_tree.get("parameters/StateMachine/conditions/slide_attack")) or (anim_tree.get("parameters/StateMachine/conditions/shoot") or anim_tree.get("parameters/StateMachine/conditions/slide_shoot"))
 
 func update_animations(delta: float) -> void:
 	if not is_sliding:
-		update_animation_blend("parameters/StateMachine/run/blend_position", delta)
+		if is_run:
+			update_animation_blend("parameters/StateMachine/run/blend_position", delta)
+		if is_run_gun:
+			update_animation_blend("parameters/StateMachine/run_gun/blend_position", delta)
 	else:
-		update_animation_blend("parameters/StateMachine/slide/blend_position", delta)
+		if is_run:
+			update_animation_blend("parameters/StateMachine/slide/blend_position", delta)
+		if is_run_gun:
+			update_animation_blend("parameters/StateMachine/slide_gun/blend_position", delta)
+
 
 func update_animation_blend(path: String, delta: float) -> void:
 	var target_blend = velocity.length() * VELOCITY_TO_ANIM_SCALE
