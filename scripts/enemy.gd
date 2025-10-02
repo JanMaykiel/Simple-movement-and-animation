@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
-var health = 3
-var original_color = "#7f5c17"
-var red = "#b91115"
-
 @onready var enemy_mesh = %Cube
+
+var health = 3
+var original_color = "#74612d"
+var red = "#b91115"
 
 func _physics_process(delta: float) -> void:
 	if health <= 0:

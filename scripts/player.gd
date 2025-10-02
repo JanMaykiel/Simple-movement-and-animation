@@ -83,7 +83,7 @@ func handle_movement(direction: Vector3, delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, drag * delta)
 
 func handle_sliding(direction: Vector3, delta: float) -> void:
-	var should_slide = direction and Input.is_action_pressed("slide") and is_on_floor()
+	var should_slide = direction and current_speed >= 4 and Input.is_action_pressed("slide") and is_on_floor()
 	
 	if should_slide and not is_sliding:
 		start_sliding()

@@ -65,4 +65,4 @@ shadow_enabled = true
 [node name="Man" parent="." instance=ExtResource("2_tlwt5")]
 
 [node name="Enemy" parent="." instance=ExtResource("3_tlwt5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.924423, 0, 7.2437334)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.989693, 0, 6.088986)
