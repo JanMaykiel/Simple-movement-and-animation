@@ -100,9 +100,11 @@ func start_sliding() -> void:
 	is_sliding = true
 	if is_run:
 		set_animation_condition("sliding", true)
+		set_animation_condition("slide_gun", false)
 		set_animation_condition("not_sliding", false)
 	if is_run_gun: 
 		set_animation_condition("slide_gun", true)
+		set_animation_condition("sliding", false)
 		set_animation_condition("not_sliding", false)
 
 func stop_sliding() -> void:
@@ -125,11 +127,17 @@ func change_attack() -> void:
 		is_run = true
 		set_animation_condition("is_run_gun", false)
 		set_animation_condition("is_run", true)
-	elif not is_run_gun and Input.is_action_just_pressed("change_attack"):
+		if is_sliding:
+			set_animation_condition("sliding", true)
+			set_animation_condition("slide_gun", false)
+	elif is_run and Input.is_action_just_pressed("change_attack"):
 		is_run_gun = true
 		is_run = false
 		set_animation_condition("is_run_gun", true)
 		set_animation_condition("is_run", false)
+		if is_sliding:
+			set_animation_condition("sliding", false)
+			set_animation_condition("slide_gun", true)
 
 func handle_attack() -> void:
 	if Input.is_action_just_pressed("attack") and not is_attack_animation_playing():
@@ -172,7 +180,6 @@ func update_animations(delta: float) -> void:
 			update_animation_blend("parameters/StateMachine/slide/blend_position", delta)
 		if is_run_gun:
 			update_animation_blend("parameters/StateMachine/slide_gun/blend_position", delta)
-
 
 func update_animation_blend(path: String, delta: float) -> void:
 	var target_blend = velocity.length() * VELOCITY_TO_ANIM_SCALE
