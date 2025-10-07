@@ -2,7 +2,7 @@ extends RigidBody3D
 
 var shoot: bool = false
 
-const SPEED = 50.0
+const SPEED = 100.0
 
 @onready var bullet_mesh = $MeshInstance3D 
 

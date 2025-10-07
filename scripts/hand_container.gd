@@ -7,6 +7,7 @@ const CARD_DEPTH = 0.03
 const CURVE_STRENGTH = 0.0
 
 @onready var player_deck = $player_deck
+var player
 
 var hand: Array = []
 var card_selected: int = 0
@@ -59,6 +60,7 @@ func select_card():
 
 func use_card():
 	if Input.is_action_just_pressed("activate"):
+		hand[card_selected].card_effect.trigger_effect(player, self)
 		hand[card_selected].hovered = false
 		hand[card_selected].free()
 		hand.remove_at(card_selected)

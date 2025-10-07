@@ -17,6 +17,9 @@ func draw_card():
 			var new_card = card_scene.instantiate()
 			var card_image_path = str("res://assets/Card/" + card_drawn_name + ".png")
 			new_card.get_node("CardImage").texture = load(card_image_path)
+			var new_card_effect_path = card_database.CARDS[card_drawn_name][1]
+			if new_card_effect_path:
+				new_card.card_effect = load(new_card_effect_path).new()
 			new_card.name = "Card"
 			player_hand.add_child(new_card)
 			player_hand.add_card_to_hand(new_card)

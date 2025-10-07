@@ -1,7 +1,6 @@
 extends CharacterBody3D
 
 const MAX_SPEED: float = 10.0
-const SPEED_MULTIPLIER: float = 2.0
 const ACCELERATION: float = 3.0
 const DECELERATION: float = 50.0
 const AIR_DRAG: float = 0.2
@@ -20,6 +19,7 @@ var is_attacking: bool = false
 
 var bullet = preload("res://scenes/bullet.tscn")
 var attack_speed = 1
+var bonus_speed = 0.0
 
 #Node References
 @onready var parent = $"."
@@ -29,8 +29,10 @@ var attack_speed = 1
 @onready var anim_tree = $AnimationTree
 @onready var player_raycast = $Armature/Skeleton3D/head/Camera_container/Player_camera/player_raycast
 @onready var gun_raycast = $Armature/Skeleton3D/head/Camera_container/Player_camera/right_hand/gun_raycast
+@onready var hand_container = $Armature/Skeleton3D/head/Camera_container/Player_camera/left_hand/Hand/Hand_container
 
 func _ready() -> void:
+	hand_container.player = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -74,10 +76,10 @@ func get_movement_input() -> Vector3:
 	return (transform.basis * Vector3(input_vec.x, 0, input_vec.y)).normalized()
 
 func handle_movement(direction: Vector3, delta: float) -> void:
-	var target_speed = MAX_SPEED / 2
+	var target_speed = MAX_SPEED + bonus_speed / 2
 	
 	if direction:
-		current_speed = move_toward(current_speed, target_speed, ACCELERATION * delta)
+		current_speed = move_toward(current_speed, target_speed, (ACCELERATION + bonus_speed) * delta)
 		velocity.x = direction.x * current_speed
 		velocity.z = direction.z * current_speed
 	else:
@@ -92,6 +94,7 @@ func handle_attack() -> void:
 
 func start_attack() -> void:
 	is_attacking = true
+	anim_tree.set("parameters/TimeScale/scale", attack_speed)
 	anim_tree.set("parameters/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	if player_raycast.is_colliding():
 		var bullet_instance = bullet.instantiate()
