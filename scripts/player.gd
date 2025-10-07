@@ -140,7 +140,7 @@ func change_attack() -> void:
 			set_animation_condition("slide_gun", true)
 
 func handle_attack() -> void:
-	if Input.is_action_just_pressed("attack") and not is_attack_animation_playing():
+	if Input.is_action_pressed("attack") and not is_attack_animation_playing():
 		start_attack()
 	elif is_attacking and is_attack_animation_playing():
 		end_attack()

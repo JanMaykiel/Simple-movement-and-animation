@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkke25e4w4nv2"]
+
+[ext_resource type="Texture2D" uid="uid://c8p6wqd583k5c" path="res://assets/Card/sample.png" id="1_5km37"]
+[ext_resource type="Script" uid="uid://bltg75gwtf4i5" path="res://scripts/card.gd" id="1_rjlel"]
+
+[node name="Card" type="Node3D"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+script = ExtResource("1_rjlel")
+
+[node name="CardImage" type="Sprite3D" parent="."]
+transform = Transform3D(0.14999999, 0, 0, 0, 0.14999998, 0, 0, 0, 0.15, 0, 0, 0)
+layers = 2
+texture = ExtResource("1_5km37")
